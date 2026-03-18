@@ -1,0 +1,23 @@
+{
+    "workbench.colorCustomizations": {
+        "[Default Dark Modern]": {
+            "tab.activeBorderTop": "#00FF00",
+            "tab.unfocusedActiveBorderTop": "#00FF0088",
+            "textCodeBlock.background": "#00000055"
+        },
+        "editor.wordHighlightStrongBorder": "#FF6347",
+        "editor.wordHighlightBorder": "#FFD700",
+        "editor.selectionHighlightBorder": "#836d6d",
+        "activityBar.background": "#5b4d60",
+        "titleBar.activeBackground": "#71a897",
+        "titleBar.activeForeground": "#FDFAFE",
+        "titleBar.inactiveBackground": "#4C0A64",
+        "titleBar.inactiveForeground": "#FDFAFE",
+        "statusBar.background": "#4C0A64",
+        "statusBar.foreground": "#FDFAFE",
+        "statusBar.debuggingBackground": "#0a2664",
+        "statusBar.debuggingForeground": "#FDFAFE",
+        "statusBar.noFolderBackground": "#4C0A64",
+        "statusBar.noFolderForeground": "#FDFAFE"
+    }
+}
