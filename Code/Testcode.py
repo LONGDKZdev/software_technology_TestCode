@@ -9,6 +9,9 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import pyswarms as ps
 import warnings
+
+from tensorflow.keras.callbacks import EarlyStopping
+
 warnings.filterwarnings('ignore') # Tắt các cảnh báo lặt vặt của Python
 
 # ==========================================
@@ -92,8 +95,12 @@ def cnn_fitness_function(particles):
         print(f"  Đang huấn luyện hạt {i+1}/{n_particles}...", end="\r")
         
         model = build_cnn(lr, opt_idx)
+
+        # Tự động dừng nếu sau 3 epochs mà AI không học được gì thêm
+        early_stop = EarlyStopping(monitor='loss', patience=3, verbose=0)
+
         # Huấn luyện mô hình
-        model.fit(X_train_cnn, y_train_scaled, epochs=epochs, batch_size=batch_size, verbose=0)
+        model.fit(X_train_cnn, y_train_scaled, epochs=epochs, batch_size=batch_size, verbose=0, callbacks=[early_stop])
         
         # Đánh giá lấy Loss (MSE) trên tập Test để làm thước đo cho PSO
         loss = model.evaluate(X_test_cnn, y_test_scaled, verbose=0)
@@ -112,10 +119,11 @@ bounds = (np.array([0.001, 1, 0, 1]), np.array([1.0, 100, 2.99, 100]))
 
 options = {'c1': 1.5, 'c2': 1.5, 'w': 0.5}
 
-# Cấu hình 50 hạt và 10 vòng lặp theo chuẩn "Experiment settings"
-optimizer = ps.single.GlobalBestPSO(n_particles=50, dimensions=4, options=options, bounds=bounds)
+# Cấu hình n_particles = 50 hạt và iters = 10 vòng lặp theo chuẩn "Experiment settings"
+# Hạ xuống còn 5 hạt và 5 vòng để test 
+optimizer = ps.single.GlobalBestPSO(n_particles=5, dimensions=4, options=options, bounds=bounds)
 
-cost, pos = optimizer.optimize(cnn_fitness_function, iters=10)
+cost, pos = optimizer.optimize(cnn_fitness_function, iters=5)
 
 best_lr = pos[0]
 best_epochs = int(pos[1])
